@@ -4,6 +4,17 @@ setlocal EnableDelayedExpansion
 set PROGFILES=%ProgramFiles%
 if not "%ProgramFiles(x86)%" == "" set PROGFILES=%ProgramFiles(x86)%
 
+REM Check if Visual Studio 2022 is installed
+set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\2022"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat"
+if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
+    set COMPILER_VER="2022"
+    echo Using Visual Studio 2022 Community
+    goto setup_env
+  )
+)
+
 REM Check if Visual Studio 2017 is installed
 set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\2017"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat"
