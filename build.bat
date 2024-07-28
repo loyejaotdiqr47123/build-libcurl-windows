@@ -9,8 +9,18 @@ set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\2022"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
-    set COMPILER_VER="2022"
+    set COMPILER_VER=2022
     echo Using Visual Studio 2022 Community
+    goto setup_env
+  )
+)
+REM Check if Visual Studio 2019 is installed
+set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\2019"
+set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+if exist %MSVCDIR% (
+  if exist %VCVARSALLPATH% (
+    set COMPILER_VER=2019
+    echo Using Visual Studio 2019 Community
     goto setup_env
   )
 )
@@ -20,7 +30,7 @@ set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\2017"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
-   	set COMPILER_VER="2017"
+   	set COMPILER_VER=2017
     echo Using Visual Studio 2017 Community
 	goto setup_env
   )
@@ -30,7 +40,7 @@ set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 14.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
-   	set COMPILER_VER="2015"
+   	set COMPILER_VER=2015
         echo Using Visual Studio 2015
 	goto setup_env
   )
@@ -40,7 +50,7 @@ set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 12.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 12.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
-    set COMPILER_VER="2013"
+    set COMPILER_VER=2013
     echo Using Visual Studio 2013
 	goto setup_env
   )
@@ -51,7 +61,7 @@ set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 11.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 11.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
-    set COMPILER_VER="2012"
+    set COMPILER_VER=2012
     echo Using Visual Studio 2012
 	goto setup_env
   )
@@ -62,7 +72,7 @@ set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 10.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
-    set COMPILER_VER="2010"
+    set COMPILER_VER=2010
     echo Using Visual Studio 2010
 	goto setup_env
   )
@@ -73,7 +83,7 @@ set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 9.0"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 9.0\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
-    set COMPILER_VER="2008"
+    set COMPILER_VER=2008
     echo Using Visual Studio 2008
 	goto setup_env
   )
@@ -84,7 +94,7 @@ set MSVCDIR="%PROGFILES%\Microsoft Visual Studio 8"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio 8\VC\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
-	set COMPILER_VER="2005"
+	set COMPILER_VER=2005
     echo Using Visual Studio 2005
 	goto setup_env
   )
@@ -95,19 +105,19 @@ set MSVCDIR="%PROGFILES%\Microsoft Visual Studio\VC98"
 set VCVARSALLPATH="%PROGFILES%\Microsoft Visual Studio\VC98\vcvarsall.bat"
 if exist %MSVCDIR% (
   if exist %VCVARSALLPATH% (
-	set COMPILER_VER="6"
+	set COMPILER_VER=6
     echo Using Visual Studio 6
 	goto setup_env
   )
 ) 
 
-echo No compiler : Microsoft Visual Studio (6, 2005, 2008, 2010, 2012, 2013 or 2015) is not installed.
+echo No compiler : Microsoft Visual Studio (6, 2005, 2008, 2010, 2012, 2013 , 2015 , 2019 or 2022) is not installed.
 goto end
 
 :setup_env
 
 echo Setting up environment
-if %COMPILER_VER% == "6" (
+if %COMPILER_VER% == 6 (
 	call %MSVCDIR%\Bin\VCVARS32.BAT
 	goto begin
 )
@@ -146,42 +156,52 @@ REM Extract downloaded zip file to tmp_libcurl
 
 cd tmp_libcurl\curl-*\winbuild
 
-if %COMPILER_VER% == "6" (
-	set VCVERSION = 6
+if %COMPILER_VER% == 6 (
+	set VCVERSION=6
 	goto buildnow
 )
 
-if %COMPILER_VER% == "2005" (
-	set VCVERSION = 8
+if %COMPILER_VER% == 2005 (
+	set VCVERSION=8
 	goto buildnow
 )
 
-if %COMPILER_VER% == "2008" (
-	set VCVERSION = 9
+if %COMPILER_VER% == 2008 (
+	set VCVERSION=9
 	goto buildnow
 )
 
-if %COMPILER_VER% == "2010" (
-	set VCVERSION = 10
+if %COMPILER_VER% == 2010 (
+	set VCVERSION=10
 	goto buildnow
 )
 
-if %COMPILER_VER% == "2012" (
-	set VCVERSION = 11
+if %COMPILER_VER% == 2012 (
+	set VCVERSION=11
 	goto buildnow
 )
 
-if %COMPILER_VER% == "2013" (
-	set VCVERSION = 12
+if %COMPILER_VER% == 2013 (
+	set VCVERSION=12
 	goto buildnow
 )
 
-if %COMPILER_VER% == "2015" (
-	set VCVERSION = 14
+if %COMPILER_VER% == 2015 (
+	set VCVERSION=14
 	goto buildnow
 )
-if %COMPILER_VER% == "2017" (
-	set VCVERSION = 15
+if %COMPILER_VER% == 2017 (
+	set VCVERSION=15
+	goto buildnow
+)
+
+if %COMPILER_VER% == 2019 (
+	set VCVERSION=16
+	goto buildnow
+)
+
+if %COMPILER_VER% == 2022 (
+	set VCVERSION=17
 	goto buildnow
 )
 
